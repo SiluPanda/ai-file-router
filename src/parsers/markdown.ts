@@ -56,10 +56,10 @@ function stripMarkdown(md: string): string {
   // Remove headers
   text = text.replace(/^#{1,6}\s+/gm, "");
   // Remove bold/italic
-  text = text.replace(/\*\*([^*]+)\*\*/g, "$1");
-  text = text.replace(/\*([^*]+)\*/g, "$1");
-  text = text.replace(/__([^_]+)__/g, "$1");
-  text = text.replace(/_([^_]+)_/g, "$1");
+  text = text.replace(/\*\*(.+?)\*\*/g, "$1");
+  text = text.replace(/\*(.+?)\*/g, "$1");
+  text = text.replace(/__(.+?)__/g, "$1");
+  text = text.replace(/_(.+?)_/g, "$1");
   // Remove horizontal rules
   text = text.replace(/^[-*_]{3,}\s*$/gm, "");
 
