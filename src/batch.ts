@@ -43,16 +43,16 @@ export async function routeBatch(
           source: sourceName,
           error: err instanceof Error ? err.message : String(err),
         });
+      })
+      .finally(() => {
+        const idx = inflight.indexOf(task);
+        if (idx !== -1) inflight.splice(idx, 1);
       });
 
     inflight.push(task);
 
     if (inflight.length >= concurrency) {
       await Promise.race(inflight);
-      // Remove settled promises
-      for (let i = inflight.length - 1; i >= 0; i--) {
-        // Use Promise.race pattern - we'll just wait all when done
-      }
     }
   }
 
