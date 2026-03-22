@@ -9,7 +9,7 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 ### 1.1 Project Scaffolding
 
 - [ ] **Install runtime dependencies** -- Add `file-type`, `cheerio`, `xlsx`, and `jszip` to `dependencies` in package.json. | Status: not_done
-- [ ] **Install dev dependencies** -- Add `typescript`, `vitest`, `eslint`, `@types/node`, and any needed ESLint plugins to `devDependencies`. | Status: not_done
+- [x] **Install dev dependencies** -- Add `typescript`, `vitest`, `eslint`, `@types/node`, and any needed ESLint plugins to `devDependencies`. | Status: done
 - [ ] **Configure optional peer dependencies** -- Add `docling-node-ts`, `tesseract.js`, `mammoth`, and `pdf-parse` as `peerDependencies` with `peerDependenciesMeta` marking each as optional. | Status: not_done
 - [ ] **Add CLI bin entry** -- Add `"bin": { "ai-file-router": "dist/cli.js" }` to package.json. | Status: not_done
 - [ ] **Create source directory structure** -- Create all directories specified in Section 21: `src/detection/`, `src/registry/`, `src/parsers/`, `src/postprocess/`, and `src/__tests__/` with subdirectories (`detection/`, `registry/`, `parsers/`, `postprocess/`, `integration/`, `fixtures/`). | Status: not_done
@@ -19,19 +19,19 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 - [ ] **Define FileInput type** -- `type FileInput = string | Buffer | URL | ReadableStream<Uint8Array>` as specified in Section 13. | Status: not_done
 - [ ] **Define SourceFormat type** -- Union type of all supported format identifiers (`'pdf' | 'docx' | 'pptx' | ...`) plus extensible `string`. | Status: not_done
-- [ ] **Define RouteResult interface** -- Fields: `content`, `outputFormat`, `sourceFormat`, `detection`, `metadata`, `warnings`, `durationMs`, `parserUsed` per Section 8.1. | Status: not_done
-- [ ] **Define FormatInfo interface** -- Fields: `format`, `confidence`, `method`, `language?`, `subtype?` per Section 9 (Step 2). | Status: not_done
+- [x] **Define RouteResult interface** -- Fields: `content`, `outputFormat`, `sourceFormat`, `detection`, `metadata`, `warnings`, `durationMs`, `parserUsed` per Section 8.1. | Status: done
+- [x] **Define FormatInfo interface** -- Fields: `format`, `confidence`, `method`, `language?`, `subtype?` per Section 9 (Step 2). | Status: done
 - [ ] **Define DocumentMetadata interface** -- Fields: `fileName?`, `fileSize?`, `title?`, `author?`, `createdDate?`, `modifiedDate?`, `pageCount?`, `wordCount`, `charCount`, `language?`, `dimensions?`, `sheetNames?`, `extra?` per Section 8.3. | Status: not_done
 - [ ] **Define RouteWarning interface** -- Fields: `code`, `message` per Section 8.4. | Status: not_done
-- [ ] **Define RouteOptions interface** -- Fields: `format?`, `mimeType?`, `fileName?`, `outputFormat?`, `imageOptions?`, `codeOptions?`, `csvOptions?`, `doclingOptions?`, `signal?` per Section 13. | Status: not_done
+- [x] **Define RouteOptions interface** -- Fields: `format?`, `mimeType?`, `fileName?`, `outputFormat?`, `imageOptions?`, `codeOptions?`, `csvOptions?`, `doclingOptions?`, `signal?` per Section 13. | Status: done
 - [ ] **Define ImageOptions interface** -- Fields: `ocr?`, `ocrLanguage?`, `ocrMinLength?` per Section 11.1. | Status: not_done
-- [ ] **Define CodeOptions interface** -- Fields: `extractComments?`, `includeHeader?` per Section 10. | Status: not_done
+- [x] **Define CodeOptions interface** -- Fields: `extractComments?`, `includeHeader?` per Section 10. | Status: done
 - [ ] **Define CsvOptions interface** -- Fields: `hasHeader?`, `delimiter?`, `maxRows?` per Section 13. | Status: not_done
 - [ ] **Define ParserFn type** -- `(input: ParserInput, options: ParserOptions) => Promise<ParserOutput>` per Section 7.4. | Status: not_done
-- [ ] **Define ParserInput interface** -- Fields: `buffer`, `filePath?`, `fileName?`, `mimeType?` per Section 7.4. | Status: not_done
-- [ ] **Define ParserOutput interface** -- Fields: `content`, `format`, `metadata?`, `warnings?` per Section 7.4. | Status: not_done
+- [x] **Define ParserInput interface** -- Fields: `buffer`, `filePath?`, `fileName?`, `mimeType?` per Section 7.4. | Status: done
+- [x] **Define ParserOutput interface** -- Fields: `content`, `format`, `metadata?`, `warnings?` per Section 7.4. | Status: done
 - [ ] **Define ParserEntry interface** -- Fields: `priority`, `parser`, `label` per Section 7.1. | Status: not_done
-- [ ] **Define BatchOptions interface** -- Extends `RouteOptions` with `concurrency?`, `failFast?`, `onProgress?` per Section 12.1. | Status: not_done
+- [x] **Define BatchOptions interface** -- Extends `RouteOptions` with `concurrency?`, `failFast?`, `onProgress?` per Section 12.1. | Status: done
 - [ ] **Define BatchResult interface** -- Fields: `results`, `totalFiles`, `succeeded`, `failed`, `durationMs` per Section 12.1. | Status: not_done
 - [ ] **Define BatchProgress interface** -- Fields: `index`, `total`, `status`, `file?` per Section 12.1. | Status: not_done
 - [ ] **Define RouteError interface** -- Fields: `success: false`, `error`, `file?` per Section 12.1. | Status: not_done
@@ -53,17 +53,17 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ### 2.1 Magic Bytes Detection (`src/detection/magic-bytes.ts`)
 
-- [ ] **Implement magic byte signature matching** -- Check the first N bytes of a Buffer against known file signatures using `file-type` library. Return format identifier and confidence per Section 5.2. | Status: not_done
-- [ ] **Handle PDF signature** -- Detect `%PDF` (0x25504446) at offset 0 with confidence 1.0. | Status: not_done
-- [ ] **Handle ZIP signature** -- Detect `PK` (0x504B0304) at offset 0 with confidence 0.9 (ambiguous -- requires ZIP disambiguation). | Status: not_done
-- [ ] **Handle PNG signature** -- Detect 8-byte PNG header at offset 0 with confidence 1.0. | Status: not_done
-- [ ] **Handle JPEG signature** -- Detect `FF D8 FF` at offset 0 with confidence 1.0. | Status: not_done
-- [ ] **Handle GIF signature** -- Detect `GIF8` at offset 0 with confidence 1.0. | Status: not_done
-- [ ] **Handle WEBP signature** -- Detect `RIFF....WEBP` pattern with confidence 1.0. | Status: not_done
-- [ ] **Handle TIFF signature** -- Detect little-endian `II*` or big-endian `MM*` at offset 0 with confidence 1.0. | Status: not_done
-- [ ] **Handle BMP signature** -- Detect `BM` at offset 0 with confidence 1.0. | Status: not_done
-- [ ] **Handle RTF signature** -- Detect `{\rtf` at offset 0 with confidence 1.0. | Status: not_done
-- [ ] **Handle GZIP signature** -- Detect `1F 8B` at offset 0 (noted for future decompression support). | Status: not_done
+- [x] **Implement magic byte signature matching** -- Check the first N bytes of a Buffer against known file signatures using `file-type` library. Return format identifier and confidence per Section 5.2. | Status: done
+- [x] **Handle PDF signature** -- Detect `%PDF` (0x25504446) at offset 0 with confidence 1.0. | Status: done
+- [x] **Handle ZIP signature** -- Detect `PK` (0x504B0304) at offset 0 with confidence 0.9 (ambiguous -- requires ZIP disambiguation). | Status: done
+- [x] **Handle PNG signature** -- Detect 8-byte PNG header at offset 0 with confidence 1.0. | Status: done
+- [x] **Handle JPEG signature** -- Detect `FF D8 FF` at offset 0 with confidence 1.0. | Status: done
+- [x] **Handle GIF signature** -- Detect `GIF8` at offset 0 with confidence 1.0. | Status: done
+- [x] **Handle WEBP signature** -- Detect `RIFF....WEBP` pattern with confidence 1.0. | Status: done
+- [x] **Handle TIFF signature** -- Detect little-endian `II*` or big-endian `MM*` at offset 0 with confidence 1.0. | Status: done
+- [x] **Handle BMP signature** -- Detect `BM` at offset 0 with confidence 1.0. | Status: done
+- [x] **Handle RTF signature** -- Detect `{\rtf` at offset 0 with confidence 1.0. | Status: done
+- [x] **Handle GZIP signature** -- Detect `1F 8B` at offset 0 (noted for future decompression support). | Status: done
 
 ### 2.2 ZIP-Based Format Disambiguation (`src/detection/zip-disambiguator.ts`)
 
@@ -73,46 +73,46 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 - [ ] **Detect XLSX** -- Check for `application/vnd.openxmlformats-officedocument.spreadsheetml` in Content_Types. | Status: not_done
 - [ ] **Detect ODT** -- Check for `application/vnd.oasis.opendocument.text` in Content_Types. | Status: not_done
 - [ ] **Detect ODS** -- Check for `application/vnd.oasis.opendocument.spreadsheet` in Content_Types. | Status: not_done
-- [ ] **Handle unrecognized ZIP** -- If Content_Types.xml is missing or doesn't match known types, report as `'unknown'` per Section 5.3. | Status: not_done
+- [x] **Handle unrecognized ZIP** -- If Content_Types.xml is missing or doesn't match known types, report as `'unknown'` per Section 5.3. | Status: done
 - [ ] **Handle corrupted ZIP** -- Fall back to extension-based detection when ZIP cannot be read. | Status: not_done
 
 ### 2.3 Extension Mapping (`src/detection/extension-map.ts`)
 
-- [ ] **Build complete extension-to-format mapping** -- Implement the full mapping table from Section 5.4 covering all document, spreadsheet, web, markup, data, code, image, and text extensions. Confidence 0.6. | Status: not_done
-- [ ] **Handle document extensions** -- `.pdf`, `.docx`, `.doc`, `.pptx`, `.ppt`, `.xlsx`, `.xls`, `.rtf`, `.odt`. | Status: not_done
-- [ ] **Handle spreadsheet extensions** -- `.csv`, `.tsv`. | Status: not_done
-- [ ] **Handle web/markup extensions** -- `.html`, `.htm`, `.xml`, `.md`, `.markdown`, `.rst`. | Status: not_done
-- [ ] **Handle data format extensions** -- `.json`, `.yaml`, `.yml`, `.toml`. | Status: not_done
-- [ ] **Handle code file extensions** -- All 40+ code file extensions listed in Section 5.4 (`.js`, `.ts`, `.py`, `.rs`, `.go`, `.java`, `.c`, `.cpp`, `.rb`, `.php`, `.swift`, `.kt`, `.scala`, `.sh`, `.sql`, `.r`, `.lua`, `.pl`, `.ex`, `.hs`, `.dart`, `.vue`, `.svelte`, `.css`, `.scss`, `.less`, `.graphql`, `.proto`, `.tf`, `.dockerfile`, `.makefile`, etc.) with corresponding language identifiers. | Status: not_done
-- [ ] **Handle image extensions** -- `.png`, `.jpg`, `.jpeg`, `.gif`, `.webp`, `.tiff`, `.tif`, `.bmp`, `.svg`. | Status: not_done
-- [ ] **Handle plain text extensions** -- `.txt`, `.log`. | Status: not_done
+- [x] **Build complete extension-to-format mapping** -- Implement the full mapping table from Section 5.4 covering all document, spreadsheet, web, markup, data, code, image, and text extensions. Confidence 0.6. | Status: done
+- [x] **Handle document extensions** -- `.pdf`, `.docx`, `.doc`, `.pptx`, `.ppt`, `.xlsx`, `.xls`, `.rtf`, `.odt`. | Status: done
+- [x] **Handle spreadsheet extensions** -- `.csv`, `.tsv`. | Status: done
+- [x] **Handle web/markup extensions** -- `.html`, `.htm`, `.xml`, `.md`, `.markdown`, `.rst`. | Status: done
+- [x] **Handle data format extensions** -- `.json`, `.yaml`, `.yml`, `.toml`. | Status: done
+- [x] **Handle code file extensions** -- All 40+ code file extensions listed in Section 5.4 (`.js`, `.ts`, `.py`, `.rs`, `.go`, `.java`, `.c`, `.cpp`, `.rb`, `.php`, `.swift`, `.kt`, `.scala`, `.sh`, `.sql`, `.r`, `.lua`, `.pl`, `.ex`, `.hs`, `.dart`, `.vue`, `.svelte`, `.css`, `.scss`, `.less`, `.graphql`, `.proto`, `.tf`, `.dockerfile`, `.makefile`, etc.) with corresponding language identifiers. | Status: done
+- [x] **Handle image extensions** -- `.png`, `.jpg`, `.jpeg`, `.gif`, `.webp`, `.tiff`, `.tif`, `.bmp`, `.svg`. | Status: done
+- [x] **Handle plain text extensions** -- `.txt`, `.log`. | Status: done
 - [ ] **Handle legacy format extensions with warnings** -- `.doc`, `.xls`, `.ppt` should be detected and emit `LEGACY_FORMAT` warning per Section 5.6. | Status: not_done
-- [ ] **Handle special filenames** -- `Dockerfile`, `Makefile` (no extension, matched by full filename). | Status: not_done
+- [x] **Handle special filenames** -- `Dockerfile`, `Makefile` (no extension, matched by full filename). | Status: done
 
 ### 2.4 MIME Type Mapping (`src/detection/mime-map.ts`)
 
-- [ ] **Build MIME-type-to-format mapping** -- Implement the full MIME type mapping table from Section 5.5. Confidence 0.8. | Status: not_done
-- [ ] **Handle application MIME types** -- `application/pdf`, `application/vnd.openxmlformats-*`, `application/json`, `application/xml`, `application/rtf`, `application/x-yaml`. | Status: not_done
-- [ ] **Handle text MIME types** -- `text/html`, `text/xml`, `text/markdown`, `text/csv`, `text/tab-separated-values`, `text/yaml`, `text/plain`. | Status: not_done
-- [ ] **Handle image MIME types** -- `image/png`, `image/jpeg`, `image/gif`, `image/webp`, `image/tiff`, `image/bmp`, `image/svg+xml`. | Status: not_done
-- [ ] **Ignore application/octet-stream** -- Fall through to other detection signals when MIME type is `application/octet-stream` per Section 5.5. | Status: not_done
+- [x] **Build MIME-type-to-format mapping** -- Implement the full MIME type mapping table from Section 5.5. Confidence 0.8. | Status: done
+- [x] **Handle application MIME types** -- `application/pdf`, `application/vnd.openxmlformats-*`, `application/json`, `application/xml`, `application/rtf`, `application/x-yaml`. | Status: done
+- [x] **Handle text MIME types** -- `text/html`, `text/xml`, `text/markdown`, `text/csv`, `text/tab-separated-values`, `text/yaml`, `text/plain`. | Status: done
+- [x] **Handle image MIME types** -- `image/png`, `image/jpeg`, `image/gif`, `image/webp`, `image/tiff`, `image/bmp`, `image/svg+xml`. | Status: done
+- [x] **Ignore application/octet-stream** -- Fall through to other detection signals when MIME type is `application/octet-stream` per Section 5.5. | Status: done
 
 ### 2.5 Content Heuristic Detection (`src/detection/content-heuristic.ts`)
 
-- [ ] **Implement text-based format heuristics** -- For buffers with no extension and no binary magic bytes, inspect content for JSON braces, HTML tags, YAML indicators, markdown headers. Confidence 0.5 per Section 5.6. | Status: not_done
-- [ ] **Detect JSON content** -- Check for leading `{` or `[` after whitespace trimming. | Status: not_done
-- [ ] **Detect HTML content** -- Check for `<!DOCTYPE html>`, `<html`, or common HTML tags. | Status: not_done
-- [ ] **Detect YAML content** -- Check for `---` at start or YAML-style `key: value` patterns. | Status: not_done
-- [ ] **Detect Markdown content** -- Check for `#` headings, `---` frontmatter, markdown-style links. | Status: not_done
-- [ ] **Default to plain text** -- If no heuristic matches, treat as plain text. | Status: not_done
+- [x] **Implement text-based format heuristics** -- For buffers with no extension and no binary magic bytes, inspect content for JSON braces, HTML tags, YAML indicators, markdown headers. Confidence 0.5 per Section 5.6. | Status: done
+- [x] **Detect JSON content** -- Check for leading `{` or `[` after whitespace trimming. | Status: done
+- [x] **Detect HTML content** -- Check for `<!DOCTYPE html>`, `<html`, or common HTML tags. | Status: done
+- [x] **Detect YAML content** -- Check for `---` at start or YAML-style `key: value` patterns. | Status: done
+- [x] **Detect Markdown content** -- Check for `#` headings, `---` frontmatter, markdown-style links. | Status: done
+- [x] **Default to plain text** -- If no heuristic matches, treat as plain text. | Status: done
 
 ### 2.6 Detection Orchestrator (`src/detection/index.ts`)
 
-- [ ] **Implement detectFormat() function** -- Orchestrate the four detection signals in priority order: explicit format > magic bytes > MIME type > extension, per Section 5.1. | Status: not_done
-- [ ] **Handle explicit format override** -- When `options.format` is provided, return it with confidence 1.0 and method `'explicit'`. | Status: not_done
+- [x] **Implement detectFormat() function** -- Orchestrate the four detection signals in priority order: explicit format > magic bytes > MIME type > extension, per Section 5.1. | Status: done
+- [x] **Handle explicit format override** -- When `options.format` is provided, return it with confidence 1.0 and method `'explicit'`. | Status: done
 - [ ] **Handle signal agreement boosting** -- When multiple signals agree, boost confidence to the maximum per Section 5.1. | Status: not_done
-- [ ] **Handle signal disagreement** -- When signals disagree, use the higher-priority signal per Section 5.1. | Status: not_done
-- [ ] **Handle content heuristic fallback** -- For buffers with no magic bytes and no extension, invoke content heuristic detection per Section 5.6. | Status: not_done
+- [x] **Handle signal disagreement** -- When signals disagree, use the higher-priority signal per Section 5.1. | Status: done
+- [x] **Handle content heuristic fallback** -- For buffers with no magic bytes and no extension, invoke content heuristic detection per Section 5.6. | Status: done
 - [ ] **Throw FormatDetectionError on failure** -- When no signal produces a result, throw `FormatDetectionError`. | Status: not_done
 
 ---
@@ -121,14 +121,14 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ### 3.1 Parser Registry Class (`src/registry/index.ts`)
 
-- [ ] **Implement ParserRegistry class** -- `Map<string, ParserEntry[]>` with methods for registration, lookup, and listing per Section 7.1. | Status: not_done
-- [ ] **Implement register() method** -- Register a parser for a format with a given priority. Custom parsers replace previous custom parsers per Section 7.4. | Status: not_done
-- [ ] **Implement getParser() method** -- Look up the highest-priority parser for a format. Sort entries by priority: `custom` > `docling` > `builtin`. Throw `UnsupportedFormatError` if no parser found per Section 7.5. | Status: not_done
-- [ ] **Implement listFormats() method** -- Return all registered formats with their parser tiers per `FormatRegistration` interface. | Status: not_done
+- [x] **Implement ParserRegistry class** -- `Map<string, ParserEntry[]>` with methods for registration, lookup, and listing per Section 7.1. | Status: done
+- [x] **Implement register() method** -- Register a parser for a format with a given priority. Custom parsers replace previous custom parsers per Section 7.4. | Status: done
+- [x] **Implement getParser() method** -- Look up the highest-priority parser for a format. Sort entries by priority: `custom` > `docling` > `builtin`. Throw `UnsupportedFormatError` if no parser found per Section 7.5. | Status: done
+- [x] **Implement listFormats() method** -- Return all registered formats with their parser tiers per `FormatRegistration` interface. | Status: done
 
 ### 3.2 Built-in Parser Registration (`src/registry/builtin-parsers.ts`)
 
-- [ ] **Register all built-in parsers** -- Register parsers for all 18 built-in formats (pdf, docx, pptx, html, xlsx, csv, tsv, json, yaml, toml, xml, markdown, rst, rtf, odt, code, image, text) with priority `'builtin'` per Section 7.2. | Status: not_done
+- [x] **Register all built-in parsers** -- Register parsers for all 18 built-in formats (pdf, docx, pptx, html, xlsx, csv, tsv, json, yaml, toml, xml, markdown, rst, rtf, odt, code, image, text) with priority `'builtin'` per Section 7.2. | Status: done
 
 ### 3.3 docling-node-ts Detection (`src/registry/docling-detection.ts`)
 
@@ -142,7 +142,7 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ### 4.1 Output Cleanup (`src/postprocess/cleanup.ts`)
 
-- [ ] **Implement whitespace normalization** -- Collapse more than two consecutive blank lines to exactly two. Remove trailing whitespace from every line. Ensure content ends with exactly one newline per Section 8.5 and Step 5 of Section 9. | Status: not_done
+- [x] **Implement whitespace normalization** -- Collapse more than two consecutive blank lines to exactly two. Remove trailing whitespace from every line. Ensure content ends with exactly one newline per Section 8.5 and Step 5 of Section 9. | Status: done
 - [ ] **Implement null byte and control character removal** -- Strip null bytes (`\0`) and control characters (ASCII 0-31 except `\n` and `\t`) per Section 8.5. | Status: not_done
 - [ ] **Implement BOM removal** -- Remove UTF-8 byte-order mark from the beginning of content per Section 9 Step 5. | Status: not_done
 - [ ] **Implement encoding normalization** -- Detect non-UTF-8 sequences, attempt conversion, and emit `ENCODING_ISSUE` warning per Section 9 Step 5. | Status: not_done
@@ -153,35 +153,35 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ### 5.1 Plain Text Parser (`src/parsers/text-parser.ts`)
 
-- [ ] **Implement text passthrough parser** -- Read file content, normalize CRLF to LF, remove trailing whitespace, terminate with single newline. Return `outputFormat: 'text'` per Section 6.8. | Status: not_done
+- [x] **Implement text passthrough parser** -- Read file content, normalize CRLF to LF, remove trailing whitespace, terminate with single newline. Return `outputFormat: 'text'` per Section 6.8. | Status: done
 
 ### 5.2 Markdown Parser (`src/parsers/markdown-parser.ts`)
 
-- [ ] **Implement markdown passthrough parser** -- Read markdown content, normalize whitespace, consistent line endings, remove trailing spaces. Return `outputFormat: 'markdown'` per Section 6.4 (Markdown). | Status: not_done
+- [x] **Implement markdown passthrough parser** -- Read markdown content, normalize whitespace, consistent line endings, remove trailing spaces. Return `outputFormat: 'markdown'` per Section 6.4 (Markdown). | Status: done
 
 ### 5.3 JSON Parser (`src/parsers/json-parser.ts`)
 
-- [ ] **Implement JSON parser** -- Parse JSON, pretty-print with 2-space indentation, wrap in a markdown fenced code block with `json` language tag per Section 6.5 (JSON). | Status: not_done
-- [ ] **Handle large JSON files** -- For files exceeding configurable threshold (default 10KB), summarize structure: list top-level keys, show array lengths, truncate deep nesting with `...` per Section 6.5. | Status: not_done
+- [x] **Implement JSON parser** -- Parse JSON, pretty-print with 2-space indentation, wrap in a markdown fenced code block with `json` language tag per Section 6.5 (JSON). | Status: done
+- [x] **Handle large JSON files** -- For files exceeding configurable threshold (default 10KB), summarize structure: list top-level keys, show array lengths, truncate deep nesting with `...` per Section 6.5. | Status: done
 
 ### 5.4 YAML Parser (`src/parsers/yaml-parser.ts`)
 
-- [ ] **Implement YAML parser** -- Wrap YAML content in a markdown fenced code block with `yaml` language tag. Preserve multi-document separators per Section 6.5 (YAML). | Status: not_done
+- [x] **Implement YAML parser** -- Wrap YAML content in a markdown fenced code block with `yaml` language tag. Preserve multi-document separators per Section 6.5 (YAML). | Status: done
 - [ ] **Handle large YAML files** -- Summarize large files rather than including verbatim per Section 6.5. | Status: not_done
 
 ### 5.5 TOML Parser (`src/parsers/toml-parser.ts`)
 
-- [ ] **Implement TOML parser** -- Wrap TOML content in a markdown fenced code block with `toml` language tag per Section 6.5 (TOML). | Status: not_done
+- [x] **Implement TOML parser** -- Wrap TOML content in a markdown fenced code block with `toml` language tag per Section 6.5 (TOML). | Status: done
 
 ### 5.6 Code Parser (`src/parsers/code-parser.ts`)
 
-- [ ] **Implement code fence wrapping** -- Wrap source code in a markdown fenced code block with the detected language tag per Section 6.6. | Status: not_done
+- [x] **Implement code fence wrapping** -- Wrap source code in a markdown fenced code block with the detected language tag per Section 6.6. | Status: done
 - [ ] **Handle code containing triple backticks** -- Use quadruple backticks for the fence when source code contains triple backticks per Section 10.2. | Status: not_done
-- [ ] **Implement language detection from extension** -- Map file extension to language tag using the extension mapping table per Section 10.1. | Status: not_done
+- [x] **Implement language detection from extension** -- Map file extension to language tag using the extension mapping table per Section 10.1. | Status: done
 - [ ] **Implement language detection from content (shebang)** -- Detect language from shebang lines (`#!/usr/bin/env python3`, `#!/bin/bash`) per Section 10.1. | Status: not_done
 - [ ] **Implement language detection from content (syntax patterns)** -- Detect language from syntax patterns (`import React`, `def `, `fn main()`, `package main`, `public class`) per Section 10.1. | Status: not_done
 - [ ] **Implement optional comment extraction** -- When `codeOptions.extractComments` is true, extract block comments and docstrings into a separate `## Documentation Comments` section. Support `/* */`, `""" """`, `# ...`, `-- ...` per Section 10.3. | Status: not_done
-- [ ] **Implement optional file metadata header** -- When `codeOptions.includeHeader` is true, prepend `## File: <path> (<Language>)` header per Section 10.4. | Status: not_done
+- [x] **Implement optional file metadata header** -- When `codeOptions.includeHeader` is true, prepend `## File: <path> (<Language>)` header per Section 10.4. | Status: done
 
 ---
 
@@ -189,15 +189,15 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ### 6.1 CSV Parser (`src/parsers/csv-parser.ts`)
 
-- [ ] **Implement RFC 4180-compliant CSV parser** -- Parse CSV with proper handling of quoted fields, escaped quotes, and multiline fields per Section 6.2 (CSV). | Status: not_done
-- [ ] **Convert CSV to markdown GFM table** -- Generate a GFM-style markdown table with headers from the first row per Section 6.2. | Status: not_done
+- [x] **Implement RFC 4180-compliant CSV parser** -- Parse CSV with proper handling of quoted fields, escaped quotes, and multiline fields per Section 6.2 (CSV). | Status: done
+- [x] **Convert CSV to markdown GFM table** -- Generate a GFM-style markdown table with headers from the first row per Section 6.2. | Status: done
 - [ ] **Support configurable header row** -- Respect `csvOptions.hasHeader` (default: true) per Section 13. | Status: not_done
-- [ ] **Support configurable delimiter** -- Respect `csvOptions.delimiter` with auto-detection (`,` for .csv, `\t` for .tsv) per Section 13. | Status: not_done
+- [x] **Support configurable delimiter** -- Respect `csvOptions.delimiter` with auto-detection (`,` for .csv, `\t` for .tsv) per Section 13. | Status: done
 - [ ] **Support maximum row limit** -- Respect `csvOptions.maxRows` (default: 1000) per Section 13. | Status: not_done
 
 ### 6.2 TSV Parser (`src/parsers/csv-parser.ts`)
 
-- [ ] **Implement TSV parsing** -- Reuse the CSV parser with tab delimiter. Ensure `.tsv` files auto-detect tab delimiter per Section 6.2 (TSV). | Status: not_done
+- [x] **Implement TSV parsing** -- Reuse the CSV parser with tab delimiter. Ensure `.tsv` files auto-detect tab delimiter per Section 6.2 (TSV). | Status: done
 
 ### 6.3 XLSX Parser (`src/parsers/xlsx-parser.ts`)
 
@@ -209,13 +209,13 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ### 6.4 HTML Fallback Parser (`src/parsers/html-fallback.ts`)
 
-- [ ] **Implement HTML-to-markdown conversion with cheerio** -- Use `cheerio` to parse HTML and convert elements to markdown per Section 6.3 (HTML). | Status: not_done
-- [ ] **Implement readability-based article extraction** -- Strip navigation, ads, sidebars, scripts, and extract main content per Section 6.3. | Status: not_done
-- [ ] **Map HTML elements to markdown** -- Convert `h1-h6` to headings, `ul/ol` to lists, `table` to GFM tables, `a` to links, `img` to image references, `pre/code` to code blocks, `strong/em` to bold/italic per Section 6.3. | Status: not_done
+- [x] **Implement HTML-to-markdown conversion with cheerio** -- Use `cheerio` to parse HTML and convert elements to markdown per Section 6.3 (HTML). | Status: done
+- [x] **Implement readability-based article extraction** -- Strip navigation, ads, sidebars, scripts, and extract main content per Section 6.3. | Status: done
+- [x] **Map HTML elements to markdown** -- Convert `h1-h6` to headings, `ul/ol` to lists, `table` to GFM tables, `a` to links, `img` to image references, `pre/code` to code blocks, `strong/em` to bold/italic per Section 6.3. | Status: done
 
 ### 6.5 XML Parser (`src/parsers/xml-parser.ts`)
 
-- [ ] **Implement XML formatted text output** -- Produce a clean, indented text representation of the XML tree structure. Preserve element tags and attributes per Section 6.3 (XML). Return `outputFormat: 'text'`. | Status: not_done
+- [x] **Implement XML formatted text output** -- Produce a clean, indented text representation of the XML tree structure. Preserve element tags and attributes per Section 6.3 (XML). Return `outputFormat: 'text'`. | Status: done
 
 ---
 
@@ -267,7 +267,7 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 - [ ] **Extract BMP dimensions** -- Read width and height from bytes 18-25 of DIB header per Section 11.2. | Status: not_done
 - [ ] **Extract TIFF dimensions** -- Read width and height from IFD entries per Section 11.2. | Status: not_done
 - [ ] **Handle corrupted image headers** -- Omit dimensions from placeholder when they cannot be extracted per Section 11.2. | Status: not_done
-- [ ] **Format file size** -- Display file size in human-readable format (KB, MB) per Section 11.2. | Status: not_done
+- [x] **Format file size** -- Display file size in human-readable format (KB, MB) per Section 11.2. | Status: done
 
 ### 8.2 SVG Text Extraction (`src/parsers/image-parser.ts`)
 
@@ -288,19 +288,19 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ### 9.1 Input Normalization (Step 1)
 
-- [ ] **Handle file path input** -- Detect string starting with `/`, `./`, or `C:\`. Read file with `fs.promises.readFile`. Extract file name and extension per Section 9 Step 1. | Status: not_done
+- [x] **Handle file path input** -- Detect string starting with `/`, `./`, or `C:\`. Read file with `fs.promises.readFile`. Extract file name and extension per Section 9 Step 1. | Status: done
 - [ ] **Handle URL input** -- Detect string starting with `http://` or `https://`, or `URL` object. Fetch content with `fetch()`. Extract file name from URL path. Record `Content-Type` header per Section 9 Step 1. | Status: not_done
-- [ ] **Handle Buffer input** -- Use directly. No file name/extension unless provided in `options.fileName` per Section 9 Step 1. | Status: not_done
+- [x] **Handle Buffer input** -- Use directly. No file name/extension unless provided in `options.fileName` per Section 9 Step 1. | Status: done
 - [ ] **Handle ReadableStream input** -- Collect all chunks into a Buffer per Section 9 Step 1. | Status: not_done
-- [ ] **Throw InputError on read failure** -- File not found, URL unreachable, stream error per Section 9 Step 1. | Status: not_done
+- [x] **Throw InputError on read failure** -- File not found, URL unreachable, stream error per Section 9 Step 1. | Status: done
 
 ### 9.2 Pipeline Orchestration
 
-- [ ] **Implement route() function** -- Wire up the 6-step pipeline: read input, detect format, select parser, invoke parser, post-process, build RouteResult per Section 9. | Status: not_done
-- [ ] **Wrap parser invocation in try/catch** -- Catch parser errors and wrap in `ParseError` with format identifier per Section 9 Step 4. | Status: not_done
-- [ ] **Measure processing duration** -- Use `performance.now()` to measure total duration from Step 1 to Step 5 per Section 9 Step 6. | Status: not_done
-- [ ] **Compute word count and char count** -- Compute from the final post-processed content string per Section 9 Step 6. | Status: not_done
-- [ ] **Assemble RouteResult** -- Combine parser output, detection result, metadata, warnings, timing, and parserUsed label per Section 9 Step 6. | Status: not_done
+- [x] **Implement route() function** -- Wire up the 6-step pipeline: read input, detect format, select parser, invoke parser, post-process, build RouteResult per Section 9. | Status: done
+- [x] **Wrap parser invocation in try/catch** -- Catch parser errors and wrap in `ParseError` with format identifier per Section 9 Step 4. | Status: done
+- [x] **Measure processing duration** -- Use `performance.now()` to measure total duration from Step 1 to Step 5 per Section 9 Step 6. | Status: done
+- [x] **Compute word count and char count** -- Compute from the final post-processed content string per Section 9 Step 6. | Status: done
+- [x] **Assemble RouteResult** -- Combine parser output, detection result, metadata, warnings, timing, and parserUsed label per Section 9 Step 6. | Status: done
 - [ ] **Support AbortSignal** -- Check `options.signal` for external cancellation throughout the pipeline per Section 13. | Status: not_done
 
 ---
@@ -309,24 +309,24 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ### 10.1 routeBatch()
 
-- [ ] **Implement parallel batch processing** -- Process multiple files concurrently up to `concurrency` limit (default: 5) per Section 12.1. | Status: not_done
-- [ ] **Implement per-file error handling** -- Failed files produce `RouteError` objects instead of throwing. Other files continue processing per Section 12.1. | Status: not_done
+- [x] **Implement parallel batch processing** -- Process multiple files concurrently up to `concurrency` limit (default: 5) per Section 12.1. | Status: done
+- [x] **Implement per-file error handling** -- Failed files produce `RouteError` objects instead of throwing. Other files continue processing per Section 12.1. | Status: done
 - [ ] **Implement failFast mode** -- When `failFast` is true, stop processing on the first error per Section 12.1. | Status: not_done
 - [ ] **Implement progress callback** -- Invoke `onProgress` after each file completes per Section 12.1. | Status: not_done
 - [ ] **Maintain result ordering** -- Results are returned in the same order as inputs, regardless of processing order per Section 12.1. | Status: not_done
-- [ ] **Support mixed input types** -- Accept `Array<string | Buffer | { input: string | Buffer; options?: RouteOptions }>` per Section 12.1. | Status: not_done
-- [ ] **Build BatchResult** -- Compute `totalFiles`, `succeeded`, `failed`, `durationMs` per Section 12.1. | Status: not_done
+- [x] **Support mixed input types** -- Accept `Array<string | Buffer | { input: string | Buffer; options?: RouteOptions }>` per Section 12.1. | Status: done
+- [x] **Build BatchResult** -- Compute `totalFiles`, `succeeded`, `failed`, `durationMs` per Section 12.1. | Status: done
 
 ### 10.2 routeDirectory()
 
-- [ ] **Implement recursive directory scanning** -- Use `fs.promises.readdir` with `recursive: true` (Node.js 18.17+) or recursive walk per Section 12.2. | Status: not_done
-- [ ] **Implement glob-based include patterns** -- Filter files matching `include` patterns per Section 12.2. | Status: not_done
-- [ ] **Implement glob-based exclude patterns** -- Skip files matching `exclude` patterns per Section 12.2. | Status: not_done
-- [ ] **Apply default exclusions** -- Skip `node_modules`, `.git`, `.svn`, `.hg`, `dist`, `build`, `__pycache__`, `.DS_Store`, `Thumbs.db`, `*.lock`, `package-lock.json`, `yarn.lock` per Section 12.2. | Status: not_done
+- [x] **Implement recursive directory scanning** -- Use `fs.promises.readdir` with `recursive: true` (Node.js 18.17+) or recursive walk per Section 12.2. | Status: done
+- [x] **Implement glob-based include patterns** -- Filter files matching `include` patterns per Section 12.2. | Status: done
+- [x] **Implement glob-based exclude patterns** -- Skip files matching `exclude` patterns per Section 12.2. | Status: done
+- [x] **Apply default exclusions** -- Skip `node_modules`, `.git`, `.svn`, `.hg`, `dist`, `build`, `__pycache__`, `.DS_Store`, `Thumbs.db`, `*.lock`, `package-lock.json`, `yarn.lock` per Section 12.2. | Status: done
 - [ ] **Enforce maxFileSize limit** -- Skip files exceeding `maxFileSize` (default: 50MB) with `LARGE_FILE` warning per Section 12.2. | Status: not_done
 - [ ] **Enforce maxFiles limit** -- Cap total files at `maxFiles` (default: 10000) per Section 12.2. | Status: not_done
 - [ ] **Skip files with undetectable format** -- Skip files whose format cannot be detected, with a warning per Section 12.2. | Status: not_done
-- [ ] **Delegate to routeBatch** -- Use `routeBatch` internally with the configured concurrency per Section 12.2. | Status: not_done
+- [x] **Delegate to routeBatch** -- Use `routeBatch` internally with the configured concurrency per Section 12.2. | Status: done
 
 ---
 
@@ -346,12 +346,12 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ## Phase 12: Public API Exports (`src/index.ts`)
 
-- [ ] **Export route function** -- Top-level `route()` using a default router instance per Section 13. | Status: not_done
-- [ ] **Export routeBatch function** -- Top-level `routeBatch()` using a default router instance per Section 13. | Status: not_done
-- [ ] **Export routeDirectory function** -- Top-level `routeDirectory()` using a default router instance per Section 13. | Status: not_done
-- [ ] **Export detectFormat function** -- Top-level `detectFormat()` per Section 13. | Status: not_done
+- [x] **Export route function** -- Top-level `route()` using a default router instance per Section 13. | Status: done
+- [x] **Export routeBatch function** -- Top-level `routeBatch()` using a default router instance per Section 13. | Status: done
+- [x] **Export routeDirectory function** -- Top-level `routeDirectory()` using a default router instance per Section 13. | Status: done
+- [x] **Export detectFormat function** -- Top-level `detectFormat()` per Section 13. | Status: done
 - [ ] **Export createRouter factory** -- Per Section 13. | Status: not_done
-- [ ] **Export all TypeScript types** -- Export all interfaces, types, and error classes for consumer use. | Status: not_done
+- [x] **Export all TypeScript types** -- Export all interfaces, types, and error classes for consumer use. | Status: done
 
 ---
 
@@ -407,42 +407,42 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ### 14.1 Format Detection Tests (`src/__tests__/detection/`)
 
-- [ ] **Test magic byte detection for all signatures** -- Feed first N bytes of PDF, PNG, JPEG, GIF, WEBP, TIFF, BMP, RTF, ZIP and verify correct format identification per Section 17. | Status: not_done
-- [ ] **Test ZIP disambiguation** -- Create minimal DOCX, PPTX, XLSX ZIP buffers with appropriate Content_Types.xml and verify correct detection per Section 17. | Status: not_done
-- [ ] **Test extension mapping for all extensions** -- Verify every extension in Section 5.4 maps to the correct format per Section 17. | Status: not_done
-- [ ] **Test MIME type mapping** -- Verify every MIME type in Section 5.5 maps correctly per Section 17. | Status: not_done
-- [ ] **Test detection priority** -- Verify magic bytes override extension when they disagree per Section 17. | Status: not_done
-- [ ] **Test explicit format override** -- Verify `options.format` bypasses all detection with confidence 1.0 per Section 17. | Status: not_done
-- [ ] **Test content heuristic detection** -- Verify JSON, HTML, YAML, and Markdown heuristics on buffers without extensions per Section 17. | Status: not_done
+- [x] **Test magic byte detection for all signatures** -- Feed first N bytes of PDF, PNG, JPEG, GIF, WEBP, TIFF, BMP, RTF, ZIP and verify correct format identification per Section 17. | Status: done
+- [x] **Test ZIP disambiguation** -- Create minimal DOCX, PPTX, XLSX ZIP buffers with appropriate Content_Types.xml and verify correct detection per Section 17. | Status: done
+- [x] **Test extension mapping for all extensions** -- Verify every extension in Section 5.4 maps to the correct format per Section 17. | Status: done
+- [x] **Test MIME type mapping** -- Verify every MIME type in Section 5.5 maps correctly per Section 17. | Status: done
+- [x] **Test detection priority** -- Verify magic bytes override extension when they disagree per Section 17. | Status: done
+- [x] **Test explicit format override** -- Verify `options.format` bypasses all detection with confidence 1.0 per Section 17. | Status: done
+- [x] **Test content heuristic detection** -- Verify JSON, HTML, YAML, and Markdown heuristics on buffers without extensions per Section 17. | Status: done
 - [ ] **Test legacy format warning** -- Verify `.doc`, `.xls`, `.ppt` emit `LEGACY_FORMAT` warning per Section 5.6. | Status: not_done
 
 ### 14.2 Parser Registry Tests (`src/__tests__/registry/registry.test.ts`)
 
-- [ ] **Test parser registration and lookup** -- Register parsers and verify correct lookup per Section 17. | Status: not_done
-- [ ] **Test priority ordering** -- Register custom, docling, and builtin parsers for same format and verify custom wins per Section 17. | Status: not_done
+- [x] **Test parser registration and lookup** -- Register parsers and verify correct lookup per Section 17. | Status: done
+- [x] **Test priority ordering** -- Register custom, docling, and builtin parsers for same format and verify custom wins per Section 17. | Status: done
 - [ ] **Test custom parser replacement** -- Register two custom parsers for the same format and verify the second replaces the first per Section 17. | Status: not_done
-- [ ] **Test listFormats()** -- Verify all registered formats and their tiers are returned per Section 17. | Status: not_done
+- [x] **Test listFormats()** -- Verify all registered formats and their tiers are returned per Section 17. | Status: done
 - [ ] **Test UnsupportedFormatError** -- Verify error is thrown for unknown format per Section 17. | Status: not_done
 
 ### 14.3 Built-in Parser Tests (`src/__tests__/parsers/`)
 
-- [ ] **Test CSV parser -- basic parsing** -- Verify correct markdown table output for simple CSV per Section 17. | Status: not_done
-- [ ] **Test CSV parser -- RFC 4180 edge cases** -- Test quoted fields, escaped quotes, multiline fields, empty fields per Section 17. | Status: not_done
+- [x] **Test CSV parser -- basic parsing** -- Verify correct markdown table output for simple CSV per Section 17. | Status: done
+- [x] **Test CSV parser -- RFC 4180 edge cases** -- Test quoted fields, escaped quotes, multiline fields, empty fields per Section 17. | Status: done
 - [ ] **Test CSV parser -- configurable options** -- Test `hasHeader`, `delimiter`, `maxRows` per Section 17. | Status: not_done
 - [ ] **Test XLSX parser** -- Verify per-sheet markdown table output per Section 17. | Status: not_done
-- [ ] **Test code parser -- language detection** -- Verify correct language tag for all major extensions per Section 17. | Status: not_done
-- [ ] **Test code parser -- code fence wrapping** -- Verify proper fencing including quadruple backtick case per Section 17. | Status: not_done
+- [x] **Test code parser -- language detection** -- Verify correct language tag for all major extensions per Section 17. | Status: done
+- [x] **Test code parser -- code fence wrapping** -- Verify proper fencing including quadruple backtick case per Section 17. | Status: done
 - [ ] **Test code parser -- comment extraction** -- Verify comment extraction for multiple languages per Section 17. | Status: not_done
-- [ ] **Test JSON parser -- pretty-print and code fence** -- Verify formatted JSON in code fence per Section 17. | Status: not_done
-- [ ] **Test JSON parser -- large file summarization** -- Verify structure summary for files exceeding threshold per Section 17. | Status: not_done
-- [ ] **Test image parser -- placeholder format** -- Verify `[Image: ...]` format with dimensions and file size per Section 17. | Status: not_done
+- [x] **Test JSON parser -- pretty-print and code fence** -- Verify formatted JSON in code fence per Section 17. | Status: done
+- [x] **Test JSON parser -- large file summarization** -- Verify structure summary for files exceeding threshold per Section 17. | Status: done
+- [x] **Test image parser -- placeholder format** -- Verify `[Image: ...]` format with dimensions and file size per Section 17. | Status: done
 - [ ] **Test image parser -- dimension extraction** -- Verify PNG, JPEG, GIF dimension extraction per Section 17. | Status: not_done
-- [ ] **Test text parser -- line ending normalization** -- Verify CRLF to LF, trailing whitespace removal per Section 17. | Status: not_done
-- [ ] **Test markdown parser -- passthrough** -- Verify content passes through with cleanup per Section 17. | Status: not_done
-- [ ] **Test HTML fallback parser** -- Verify HTML-to-markdown conversion per Section 17. | Status: not_done
+- [x] **Test text parser -- line ending normalization** -- Verify CRLF to LF, trailing whitespace removal per Section 17. | Status: done
+- [x] **Test markdown parser -- passthrough** -- Verify content passes through with cleanup per Section 17. | Status: done
+- [x] **Test HTML fallback parser** -- Verify HTML-to-markdown conversion per Section 17. | Status: done
 - [ ] **Test RST parser** -- Verify RST-to-markdown heading conversion per Section 17. | Status: not_done
-- [ ] **Test YAML parser** -- Verify code fence wrapping per Section 17. | Status: not_done
-- [ ] **Test TOML parser** -- Verify code fence wrapping per Section 17. | Status: not_done
+- [x] **Test YAML parser** -- Verify code fence wrapping per Section 17. | Status: done
+- [x] **Test TOML parser** -- Verify code fence wrapping per Section 17. | Status: done
 
 ### 14.4 Post-Processing Tests (`src/__tests__/postprocess/cleanup.test.ts`)
 
@@ -453,19 +453,19 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ### 14.5 Batch Processing Tests (`src/__tests__/batch.test.ts`)
 
-- [ ] **Test concurrency limiting** -- Verify no more than N files processed simultaneously per Section 17. | Status: not_done
-- [ ] **Test per-file error isolation** -- Verify one file's failure does not affect others per Section 17. | Status: not_done
+- [x] **Test concurrency limiting** -- Verify no more than N files processed simultaneously per Section 17. | Status: done
+- [x] **Test per-file error isolation** -- Verify one file's failure does not affect others per Section 17. | Status: done
 - [ ] **Test progress callback invocation** -- Verify callback called for each file with correct progress info per Section 17. | Status: not_done
 - [ ] **Test result ordering** -- Verify results match input order per Section 17. | Status: not_done
 - [ ] **Test failFast behavior** -- Verify processing stops on first error when enabled per Section 17. | Status: not_done
 
 ### 14.6 Directory Scanning Tests
 
-- [ ] **Test recursive scanning** -- Verify files in subdirectories are found per Section 17. | Status: not_done
-- [ ] **Test include/exclude glob patterns** -- Verify correct filtering per Section 17. | Status: not_done
+- [x] **Test recursive scanning** -- Verify files in subdirectories are found per Section 17. | Status: done
+- [x] **Test include/exclude glob patterns** -- Verify correct filtering per Section 17. | Status: done
 - [ ] **Test maxFileSize limit** -- Verify large files are skipped with warning per Section 17. | Status: not_done
 - [ ] **Test maxFiles limit** -- Verify file count cap per Section 17. | Status: not_done
-- [ ] **Test default exclusions** -- Verify node_modules, .git, etc. are excluded per Section 17. | Status: not_done
+- [x] **Test default exclusions** -- Verify node_modules, .git, etc. are excluded per Section 17. | Status: done
 
 ### 14.7 CLI Tests (`src/__tests__/cli.test.ts`)
 
@@ -478,8 +478,8 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ### 14.8 Output Formatting Tests
 
-- [ ] **Test RouteResult structure** -- Verify all fields are populated correctly per Section 17. | Status: not_done
-- [ ] **Test metadata population** -- Verify wordCount, charCount, fileName, fileSize per Section 17. | Status: not_done
+- [x] **Test RouteResult structure** -- Verify all fields are populated correctly per Section 17. | Status: done
+- [x] **Test metadata population** -- Verify wordCount, charCount, fileName, fileSize per Section 17. | Status: done
 - [ ] **Test warning codes** -- Verify all warning codes from Section 8.4 are emitted in appropriate scenarios. | Status: not_done
 
 ---
@@ -490,14 +490,14 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 - [ ] **Test PDF routing end-to-end** -- Route a real PDF, verify `sourceFormat === 'pdf'`, `outputFormat === 'markdown'`, content contains text, metadata includes page count per Section 17. | Status: not_done
 - [ ] **Test DOCX routing end-to-end** -- Route a real DOCX, verify structural markdown output per Section 17. | Status: not_done
-- [ ] **Test CSV routing end-to-end** -- Route a CSV, verify markdown table with correct headers and rows per Section 17. | Status: not_done
+- [x] **Test CSV routing end-to-end** -- Route a CSV, verify markdown table with correct headers and rows per Section 17. | Status: done
 - [ ] **Test XLSX routing end-to-end** -- Route an XLSX, verify per-sheet markdown tables per Section 17. | Status: not_done
-- [ ] **Test code file routing end-to-end** -- Route a `.ts` file, verify markdown code fence with `typescript` tag per Section 17. | Status: not_done
-- [ ] **Test image placeholder routing** -- Route a PNG without OCR, verify placeholder format with dimensions per Section 17. | Status: not_done
+- [x] **Test code file routing end-to-end** -- Route a `.ts` file, verify markdown code fence with `typescript` tag per Section 17. | Status: done
+- [x] **Test image placeholder routing** -- Route a PNG without OCR, verify placeholder format with dimensions per Section 17. | Status: done
 - [ ] **Test image OCR routing** -- Route a PNG with OCR enabled (requires `tesseract.js`), verify extracted text per Section 17. | Status: not_done
-- [ ] **Test JSON routing end-to-end** -- Route a JSON file, verify pretty-printed code fence per Section 17. | Status: not_done
-- [ ] **Test markdown routing end-to-end** -- Route a `.md` file, verify passthrough with cleanup per Section 17. | Status: not_done
-- [ ] **Test HTML routing end-to-end** -- Route an HTML file, verify markdown output per Section 17. | Status: not_done
+- [x] **Test JSON routing end-to-end** -- Route a JSON file, verify pretty-printed code fence per Section 17. | Status: done
+- [x] **Test markdown routing end-to-end** -- Route a `.md` file, verify passthrough with cleanup per Section 17. | Status: done
+- [x] **Test HTML routing end-to-end** -- Route an HTML file, verify markdown output per Section 17. | Status: done
 - [ ] **Test determinism** -- Route same file twice with same options, verify identical content per Section 17. | Status: not_done
 
 ### 15.2 docling Integration Tests (`docling-integration.test.ts`)
@@ -507,22 +507,22 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ### 15.3 Custom Parser Tests
 
-- [ ] **Test custom parser registration and invocation** -- Register a custom parser, route a file, verify custom output is returned per Section 17. | Status: not_done
-- [ ] **Test custom parser overrides docling** -- Register custom PDF parser, verify it takes priority over docling per Section 17. | Status: not_done
+- [x] **Test custom parser registration and invocation** -- Register a custom parser, route a file, verify custom output is returned per Section 17. | Status: done
+- [x] **Test custom parser overrides docling** -- Register custom PDF parser, verify it takes priority over docling per Section 17. | Status: done
 
 ### 15.4 Batch Integration Tests (`batch.test.ts`)
 
-- [ ] **Test batch routing of mixed formats** -- Route 10 mixed-format files, verify all results returned in order per Section 17. | Status: not_done
-- [ ] **Test batch with failures** -- Include a bad file, verify other files succeed and failed file has `RouteError` per Section 17. | Status: not_done
+- [x] **Test batch routing of mixed formats** -- Route 10 mixed-format files, verify all results returned in order per Section 17. | Status: done
+- [x] **Test batch with failures** -- Include a bad file, verify other files succeed and failed file has `RouteError` per Section 17. | Status: done
 
 ### 15.5 Directory Integration Tests (`directory.test.ts`)
 
-- [ ] **Test directory routing** -- Create a temp directory with mixed files, run `routeDirectory`, verify all files processed per Section 17. | Status: not_done
-- [ ] **Test directory exclusion patterns** -- Verify excluded files are skipped per Section 17. | Status: not_done
+- [x] **Test directory routing** -- Create a temp directory with mixed files, run `routeDirectory`, verify all files processed per Section 17. | Status: done
+- [x] **Test directory exclusion patterns** -- Verify excluded files are skipped per Section 17. | Status: done
 
 ### 15.6 Format Detection Integration Tests
 
-- [ ] **Test mismatched extension and content** -- Feed a PDF file with a `.txt` extension, verify magic bytes win per Section 17. | Status: not_done
+- [x] **Test mismatched extension and content** -- Feed a PDF file with a `.txt` extension, verify magic bytes win per Section 17. | Status: done
 
 ---
 
@@ -538,11 +538,11 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 - [ ] **Test XLSX with multiple sheets, some empty** -- Verify handling per Section 17. | Status: not_done
 - [ ] **Test code file with no extension but shebang** -- Verify language detection from shebang per Section 17. | Status: not_done
 - [ ] **Test image with corrupted header** -- Verify placeholder without dimensions per Section 17. | Status: not_done
-- [ ] **Test Buffer input with no fileName or mimeType** -- Verify fallback detection per Section 17. | Status: not_done
+- [x] **Test Buffer input with no fileName or mimeType** -- Verify fallback detection per Section 17. | Status: done
 - [ ] **Test URL that returns 404** -- Verify `InputError` per Section 17. | Status: not_done
 - [ ] **Test AbortSignal triggered mid-processing** -- Verify cancellation per Section 17. | Status: not_done
 - [ ] **Test concurrent route() calls on same router** -- Verify thread safety per Section 17. | Status: not_done
-- [ ] **Test routeDirectory on empty directory** -- Verify graceful handling per Section 17. | Status: not_done
+- [x] **Test routeDirectory on empty directory** -- Verify graceful handling per Section 17. | Status: done
 - [ ] **Test routeDirectory on directory with only excluded files** -- Verify empty result per Section 17. | Status: not_done
 
 ---
@@ -579,9 +579,9 @@ This file tracks all implementation tasks derived from SPEC.md. Each task is gra
 
 ## Phase 19: Build, Lint, and CI
 
-- [ ] **Verify TypeScript compilation passes** -- Run `npm run build` and ensure no type errors. | Status: not_done
-- [ ] **Configure ESLint** -- Set up ESLint with appropriate TypeScript rules. Ensure `npm run lint` passes. | Status: not_done
-- [ ] **Verify all tests pass** -- Run `npm run test` (vitest) and ensure all tests pass. | Status: not_done
+- [x] **Verify TypeScript compilation passes** -- Run `npm run build` and ensure no type errors. | Status: done
+- [x] **Configure ESLint** -- Set up ESLint with appropriate TypeScript rules. Ensure `npm run lint` passes. | Status: done
+- [x] **Verify all tests pass** -- Run `npm run test` (vitest) and ensure all tests pass. | Status: done
 - [ ] **Verify package builds for publishing** -- Run `npm run prepublishOnly` and verify `dist/` output includes all expected files. | Status: not_done
 - [ ] **Verify CLI is executable** -- Test that `npx ai-file-router --help` works after build. | Status: not_done
 
