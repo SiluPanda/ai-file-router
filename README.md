@@ -3,6 +3,7 @@
 Auto-detect file type and route through the optimal parsing pipeline.
 
 [![npm version](https://img.shields.io/npm/v/ai-file-router.svg)](https://www.npmjs.com/package/ai-file-router)
+[![npm downloads](https://img.shields.io/npm/dt/ai-file-router.svg)](https://www.npmjs.com/package/ai-file-router)
 [![license](https://img.shields.io/npm/l/ai-file-router.svg)](https://github.com/SiluPanda/ai-file-router/blob/master/LICENSE)
 [![node](https://img.shields.io/node/v/ai-file-router.svg)](https://nodejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue.svg)](https://www.typescriptlang.org/)
